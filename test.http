@@ -1,0 +1,37 @@
+# this post fails if internet is not active as linkeddata package attempts to dereference the context.
+POST http://localhost:8000/post
+Content-type: application/json
+
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "summary": "A note",
+  "type": "Note",
+  "content": "My dog has fleas."
+}
+
+#
+
+POST http://localhost:8000/post
+Content-type: application/json
+
+{
+  "@context": {
+    "ex": "http://example.org/vocab#",
+    "ex:date": {
+      "@type": "xsd:dateTime"
+    },
+    "ex:parent": {
+      "@type": "@id"
+    },
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@id": "http://example.org/test#example1",
+  "ex:date": "2011-01-25T00:00:00Z",
+  "ex:embed": {
+    "@id": "http://example.org/test#example2",
+    "ex:parent": "http://example.org/test#example1"
+  }
+}
+#
+
+GET http://localhost:8000/
