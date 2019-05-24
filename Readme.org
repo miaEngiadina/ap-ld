@@ -1,0 +1,41 @@
+#+TITLE: ActivityPub with Linked Data as data model
+
+This is an experiment to implement an [[https://www.w3.org/TR/activitypub/][ActivityPub]] server that stores data (activities and actor profiles) as linked data.
+
+* Overview
+
+The ActivityPub is a protocol is a decentralized social networking protocol based on [[https://www.w3.org/TR/activitystreams-core/][ActivityStreams]]. ActivityStreams specifies the representation of activities and actors in social networks. Activities and actors are represented as [[https://en.wikipedia.org/wiki/Linked_data][Linked data]], serialized as [[https://www.w3.org/TR/json-ld/][JSON-LD]]. 
+
+Existing ActivityPub servers (known to the author) store data in relational databases, making use of well-known database technology. However much of the flexibility of linked data is lost and servers are usually restricted to specific types of data (e.g. [[https://pleroma.social/][Pleroma]] and [[https://joinmastodon.org/][Mastodon]] to notes, [[https://peertube.cpy.re/][PeerTube]] to videos, etc.). A data-type-independent ActivityPub Server, that can handle any kind of data, needs to use linked data as the underlying data model.
+
+A database that can store linked data is called a [[https://en.wikipedia.org/wiki/Triplestore][triplestore]]. This experiment uses [[https://docs.racket-lang.org/datalog/][Datalog]] to store and query data. Datalog is a logic programming language/deductive database system that can be used as a hacked-together triplestore.
+
+** Ideas
+
+*** TODO Triplestore
+
+Data should be stored and queried as linked data (and served as JSON-LD at the endpoints).
+
+*** TODO Annotated RDF for Access Control
+
+Data that is stored in an ActivityPub server (e.g. a published note) may be accessible to a user if it is placed in the users inbox or when [[https://www.w3.org/TR/activitypub/#public-addressing][addressed to the public]]. This requires certain access control to ensure that users can only see data they are allowed to.
+
+Access control can not be directly modeled in linked data/RDF.
+
+[[http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.84.1632&rep=rep1&type=pdf][Annotated RDF]] is an extension to RDF that adds annotations, that can be used to [[http://drops.dagstuhl.de/opus/volltexte/2012/3638/pdf/36.pdf][implement access control]]. This experiment aims to implement such a system for access control.
+
+* TODO Get started
+
+* TODO Further ideas
+
+* See also
+
+- The [[https://gitlab.com/spritely][Spritely]] project and it's demonstrators (such as [[https://gitlab.com/spritely/golem][golem]])
+- An excellent [[https://x775.net/2019/03/18/Introduction-to-Datalog.html][introduction to Datalog]]
+- [[https://commonspub.org/][CommonsPub]]: a project to build an ActivityPub server which supports any type of activity, object and property.
+
+* About
+
+This experiment is conducted as part of the [[https://miaengiadina.github.io/openengiadina/][openEngiadina]] project.
+
+For questions, feedback and comments, contact pukkamustard (pukkamustard [at] posteo [dot] net).
