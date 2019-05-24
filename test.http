@@ -1,3 +1,7 @@
+# Get the actor-profile
+
+GET http://localhost:8000/
+
 # this post fails if internet is not active as linkeddata package attempts to dereference the context.
 POST http://localhost:8000/post
 Content-type: application/json
@@ -32,6 +36,3 @@ Content-type: application/json
     "ex:parent": "http://example.org/test#example1"
   }
 }
-#
-
-GET http://localhost:8000/
