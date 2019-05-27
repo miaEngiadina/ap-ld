@@ -54,9 +54,15 @@
              (let ([property (hash-ref triple-as-hash 'P)]
                    [object (hash-ref triple-as-hash 'O)])
                (hash-set h
-                         (string->symbol property)
-                         (cond [(literal? object) (literal-lexical-form object)]
-                               [else object]))))
+                         property
+                         (cond [(literal? object)
+                                ;; if literal pack in @value
+                                (hasheq '@value (literal-lexical-form object))]
+                               ;; if not literal pack in @id
+                               ;; [else (hasheq '@id object)]
+                               ;; TODO but that causes compact-jsonld to fail. Figure out why.
+                               [else object]
+                               ))))
            (hasheq)
            q))
   (let [(query-result
@@ -171,13 +177,13 @@
         [name "The Actor"])
     (list
      (triple id
-             "https://www.w3.org/ns/activitystream#inbox"
+             'https://www.w3.org/ns/activitystreams#inbox
              (url->string (absolute-url get-inbox)))
      (triple id
-             rdf:type
+             '@type
              "https://www.w3.org/ns/activitystream#Person")
      (triple id
-             "https://www.w3.org/ns/activitystreams#name"
+             'https://www.w3.org/ns/activitystreams#name
              (literal name #f #f)))))
 
 
