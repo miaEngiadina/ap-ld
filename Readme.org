@@ -11,10 +11,9 @@ Existing ActivityPub servers (known to the author) store data in relational data
 A database that can store linked data is called a [[https://en.wikipedia.org/wiki/Triplestore][triplestore]]. This experiment uses [[https://docs.racket-lang.org/datalog/][Datalog]] to store and query data. Datalog is a logic programming language/deductive database system that can be used as a hacked-together triplestore.
 
 ** Ideas
-
 *** TODO Triplestore
 
-Data should be stored and queried as linked data (and served as JSON-LD at the endpoints).
+Data is stored in a triplestore. Endpoints get (or put) data into triplestore with suitable queries. Data validation is also done with queries on linked data.
 
 *** TODO Annotated RDF for Access Control
 
@@ -24,9 +23,17 @@ Access control can not be directly modeled in linked data/RDF.
 
 [[http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.84.1632&rep=rep1&type=pdf][Annotated RDF]] is an extension to RDF that adds annotations, that can be used to [[http://drops.dagstuhl.de/opus/volltexte/2012/3638/pdf/36.pdf][implement access control]]. This experiment aims to implement such a system for access control.
 
+*** TODO Test data
+
+In order to test the ideas it would be nice to have a large data set of real (publicly available) ActivityPub data. This can be obtained by scraping public ActivityPub servers.
+
+*** Prolog
+
+Currently this experiment is conducted using the [[https://racket-lang.org/][Racket programming language]], maybe it would be easier to do it in [[https://en.wikipedia.org/wiki/Prolog][Prolog]], which has a nice [[http://www.swi-prolog.org/pldoc/doc_for?object=section('packages/semweb.html')][Semantic Web Library]]. However, the Prolog Semantic Web Library [[https://github.com/SWI-Prolog/packages-semweb/wiki/Load-and-save#4-missing-parsersgenerators][does not yet have JSON-LD support]].
+
 * TODO Get started
 
-* TODO Further ideas
+See [[./main.rkt][~main.rkt~]].
 
 * See also
 
