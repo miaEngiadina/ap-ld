@@ -82,6 +82,19 @@
           "http://example.com/vocab#example2"))
 
 
+;; Load a simple create action
+(expand-jsonld
+ (call-with-input-file "a-create.jsonld" read-json))
+
+;; I think the json-ld->rdf does not work properly, or at least not as I expect
+(json-ld->rdf
+ (expand-jsonld
+  (call-with-input-file "a-create.jsonld" read-json)))
+
+;; Query for all triples in the database
+(datalog (database)
+         (? (triple S P O)))
+
 ;; Web Server
 ;; ==========
 
@@ -91,13 +104,19 @@
    ;; The actor profile
    [("") get-actor-profile]
 
-   ;; inbox
-   [("inbox") get-inbox]
+   ;; get inbox
+   [("inbox") #:method "get" get-inbox]
 
-   ;; TODO outbox
-   [("outbox") hello]
+   ;; post to inbox (server-to-server)
+   [("inbox") #:method "post" post-inbox]
 
-   ;; any JSON-LD posted here will be added to the database
+   ;; post to outbox
+   [("outbox") #:method "post" post-outbox]
+
+   ;; get outbox (rest of world)
+   [("outbox") #:method "get" get-inbox]
+
+   ;; DEBUG: any JSON-LD posted here will be added to the database
    [("post") #:method "post" post!]
 
    [else error-404]))
@@ -150,6 +169,20 @@
 ;; TODO
 (define (get-inbox req)
   (response/string #:body "Hello"))
+
+(define (post-inbox req)
+  (response/string #:body "Hello"))
+
+(define (get-outbox req)
+  (response/string #:body "Hello"))
+
+;; This is where a user posts an activity to be forwarded to other inboxes
+;; TODO Create a new Datalog theory with the request content and validate by running datalog queries.
+(define (post-outbox req)
+  (let ([data (request-post-data/raw req)])
+    (database-add-triples! (data->triples data))
+    (display (data->triples data))
+    (response/string #:body "Ok")))
 
 ;; Hiii!
 (define (hello req name)

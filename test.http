@@ -2,8 +2,26 @@
 
 GET http://localhost:8000/
 
+# Post a Create for a note
+POST http://localhost:8000/outbox
+Content-type: application/json
+
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "type": "Create",
+  "id": "http://localhost:8000/a-create",
+  "actor": "http://localhost:8000/",
+  "object": {
+    "type": "Note",
+    "id": "http://localhost:8000/a-note",
+    "content": "This is a note",
+    "to": ["https://localhost:8000/"]
+  },
+  "to": ["https://localhost:8000/"]
+}
+
 # this post fails if internet is not active as linkeddata package attempts to dereference the context.
-POST http://localhost:8000/post
+POST http://localhost:8000/outbox
 Content-type: application/json
 
 {
@@ -11,6 +29,7 @@ Content-type: application/json
   "summary": "A note",
   "type": "Note",
   "content": "My dog has fleas."
+  "to": ["https://localhost:8000/"],
 }
 
 #

@@ -1,0 +1,13 @@
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "type": "Create",
+  "id": "http://localhost:8000/a-create",
+  "actor": "http://localhost:8000/",
+  "object": {
+    "type": "Note",
+    "id": "http://localhost:8000/a-note",
+    "content": "This is a note",
+    "to": ["https://localhost:8000/"]
+  },
+  "to": ["https://localhost:8000/"]
+}
